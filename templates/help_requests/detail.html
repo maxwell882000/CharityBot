@@ -1,0 +1,76 @@
+{% extends 'layouts/admin.html' %}
+
+{% block title %}
+Просьба о помощи #{{ help_request.id }}
+{% endblock title %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'admin-help-index' %}">Нужна помощь</a></li>
+    <li class="breadcrumb-item active">Просьба о помощи #{{ help_request.id }}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+    <h2 class="content-heading">Нужна помощь</h2>
+    {% if help_request.has_conflict %}
+        <div class="alert alert-warning" role="alert">
+            <p class="mb-0">
+                <i class="fa fa-warning"></i> Конфликты возникают, когда владелец просьбы отрицает, что ему помогли, а помогающий утверждает, что оказал помощь
+            </p>
+        </div>
+    {% endif %}
+    <div class="block">
+        <div class="block-header block-header-default">
+            <h3 class="block-title">Просьба о помощи #{{ help_request.id }} {% if help_request.has_conflict %}<span class="badge badge-pill badge-warning">Конфликт</span>{% endif %}</h3>
+        </div>
+        <div class="block-content">
+            {% if help_request.has_conflict %}
+                <div class="d-flex justify-content-start align-items-center flex-wrap">
+                    <a href="{% url 'admin-help-resolve' help_request.id %}?side=owner" class="btn btn-alt-warning mr-10 mb-10" data-toggle="tooltip" title="Просьба о помощи останется в списке"><i class="si si-check"></i> Убрать конфликт (в пользу владельца)</a>
+                    <a href="{% url 'admin-help-resolve' help_request.id %}?side=helper" class="btn btn-alt-warning mb-10" data-toggle="tooltip" title="Просьба о помощи исчезнет из списка"><i class="si si-check"></i> Убрать конфликт (в пользу помогающего)</a>
+                </div>
+            {% endif %}
+            <div class="row mb-20 text-center">
+                <div class="col-sm-6 col-md-4">
+                    <h3 class="content-heading">Имя</h3>
+                    <p><a href="{% url 'admin-users-detail' help_request.user.id %}" class="link-effect">{{ help_request.user.name }}</a></p>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <h3 class="content-heading">Информация</h3>
+                    <p><span class="font-weight-bold">Что-нужно:</span> {{ help_request.help_type }}</p>
+                    <p><span class="font-weight-bold">Дополнительная информация:</span> {{ help_request.description }}</p>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <h3 class="content-heading">Дата публикации</h3>
+                    <p>{{ help_request.created_at }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if complains %}
+        <div class="block">
+            <div class="block-header block-header-default">
+                <h3 class="block-title text-danger"><i class="si si-book-open"></i> Жалобы</h3>
+            </div>
+            <div class="block-content">
+                <div class="table-responsive">
+                    <table class="table table-stripped table-vcenter">
+                        <thead>
+                            <tr>
+                                <th class="text-center">От кого</th>
+                                <th class="text-center">Содержание</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for complain in complains %}
+                                <tr>
+                                    <td class="text-center"><a href="{% url 'admin-users-detail' complain.user_from.id %}" class="link-effect">{{ complain.user_from.name }}</a></td>
+                                    <td class="text-center">{{ complain.text }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock content %}

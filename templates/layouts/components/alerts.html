@@ -1,0 +1,17 @@
+{% if messages %}
+    <!-- Alerts -->
+    <div class="row">
+        {% for message in messages %}
+            <div class="col-md-12">
+                <div class="alert alert-dismissible alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}success{% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{% else %}info{% endif %}" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h3 class="alert-heading font-size-h4 font-w400">{% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}Успешно!{% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Ошибка!{% else %}Полезно знать!{% endif %}</h3>
+                    <p class="mb-0">
+                        {{ message }}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <!-- End of Alerts -->
+{% endif %}

@@ -1,0 +1,12 @@
+a.text-primary:hover {
+    color: #e74c3c !important;
+}
+
+.img-avatar.img-avatar24 {
+    width: 24px;
+    height: 24px;
+}
+
+.profile-content p {
+    margin: 0;
+}

@@ -1,0 +1,63 @@
+{% extends 'layouts/admin.html' %}
+
+{% block title %}
+Предложение отдать даром #{{ offer.id }}
+{% endblock title %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'admin-help-index' %}">Нужна помощь</a></li>
+    <li class="breadcrumb-item active">Предложение отдать даром #{{ offer.id }}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+    <h2 class="content-heading">Отдать даром</h2>
+    <div class="block">
+        <div class="block-header block-header-default">
+            <h3 class="block-title">Предложение отдать даром #{{ offer.id }}</h3>
+        </div>
+        <div class="block-content">
+            <div class="row mb-20 text-center">
+                <div class="col-sm-6 col-md-4">
+                    <h3 class="content-heading">Имя</h3>
+                    <p><a href="{% url 'admin-users-detail' offer.user.id %}" class="link-effect">{{ offer.user.name }}</a></p>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <h3 class="content-heading">Информация</h3>
+                    <p><span class="font-weight-bold">Может отдать:</span> {{ offer.give_away_type }}</p>
+                    <p><span class="font-weight-bold">Дополнительная информация:</span> {{ offer.description }}</p>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <h3 class="content-heading">Фотография</h3>
+                    <img src="{{ offer.photo_telegram_url }}" alt="Предложение отдать даром #{{ offer.id }}" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if complains %}
+        <div class="block">
+            <div class="block-header block-header-default">
+                <h3 class="block-title text-danger"><i class="si si-book-open"></i> Жалобы</h3>
+            </div>
+            <div class="block-content">
+                <div class="table-responsive">
+                    <table class="table table-stripped table-vcenter">
+                        <thead>
+                            <tr>
+                                <th class="text-center">От кого</th>
+                                <th class="text-center">Содержание</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for complain in complains %}
+                                <tr>
+                                    <td class="text-center"><a href="{% url 'admin-users-detail' complain.user_from.id %}" class="link-effect">{{ complain.user_from.name }}</a></td>
+                                    <td class="text-center">{{ complain.text }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock content %}

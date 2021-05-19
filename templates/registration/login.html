@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Meta tags -->
+    <meta name="description" content="Административная панель Telegram бота Charity">
+    <meta name="author" content="Verve Intelligence Development">
+    <meta name="robots" content="noindex, nofollow">
+    {% load static %}
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{% static "assets/css/codebase.min.css" %}">
+
+    <!-- Icons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static '/apple-icon-57x57.png' %}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{% static '/apple-icon-60x60.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static '/apple-icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static '/apple-icon-76x76.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static '/apple-icon-114x114.png' %}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static '/apple-icon-120x120.png' %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static '/apple-icon-144x144.png' %}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static '/apple-icon-152x152.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static '/apple-icon-180x180.png' %}">
+    <link rel="icon" type="image/png" sizes="192x192"  href="{% static '/android-icon-192x192.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static '/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static '/favicon-96x96.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static '/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static '/manifest.json' %}"> 
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{% static '/ms-icon-144x144.png' %}">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Page title -->
+    <title>Log in | Delivery</title>
+</head>
+<body>
+    <div id="page-container" class="main-content-boxed">
+        <main id="main-container">
+            <div class="bg-gd-primary">
+                <div class="hero-static content content-full bg-white invisible" data-toggle="appear">
+                    <!-- Header -->
+                    <div class="py-30 px-5 text-center">
+                        <i class="si si-star text-primary"></i>
+                        <span class="font-size-xl text-primary font-w700">Char</span><span class="font-size-xl font-w700">ity</span>
+                        <h1 class="h2 font-w700 mt-50 mb-10">Добро пожаловать в Административную панель!</h1>
+                        <h2 class="h4 font-w400 text-muted mb-0">Пожалуйста, авторизуйтесь</h2>
+                    </div>
+                    <!-- END Header -->
+
+                    <!-- Sign In Form -->
+                    <div class="row justify-content-center px-5">
+                        <div class="col-sm-8 col-md-6 col-xl-4">
+                            <!-- jQuery Validation (.js-validation-signin class is initialized in js/pages/op_auth_signin.js) -->
+                            <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+                            <form class="js-validation-signin" action="" method="post">
+                                {% csrf_token %}
+                                <div class="form-group row {% if form.username.errors %}is-invalid{% endif %}">
+                                    <div class="col-12">
+                                        <div class="form-material floating">
+                                            <input type="text" name="username" id="username" class="form-control">
+                                            <label for="{{ form.username.id_for_label }}">Имя пользователя</label>
+                                        </div>
+                                        {% if form.username.errors %}
+                                            <div id="username-error" class="invalid-feedback animated fadeInDown">
+                                                {% for error in form.username.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="form-group row {% if form.password.errors %}is-invalid{% endif %}">
+                                    <div class="col-12">
+                                        <div class="form-material floating">
+                                            <input type="password" class="form-control" id="password" name="password">
+                                            <label for="{{ form.password.id_for_label }}">Пароль</label>
+                                        </div>
+                                        {% if form.password.errors %}
+                                            <div id="password-error" class="invalid-feedback animated fadeInDown">
+                                                {% for error in form.password.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="form-group row gutters-tiny">
+                                    <div class="col-12 mb-10">
+                                        <button type="submit" class="btn btn-block btn-hero btn-noborder btn-rounded btn-alt-primary">
+                                            <i class="si si-login mr-10"></i> Войти
+                                        </button>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="next" value="{{ next }}">
+                            </form>
+                        </div>
+                    </div>
+                    <!-- END Sign In Form -->
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Scripts -->
+    <script src="{% static "assets/js/core/jquery.min.js" %}"></script>
+    <script src="{% static "assets/js/core/bootstrap.min.js" %}"></script>
+    <script src="{% static "assets/js/core/jquery.appear.min.js" %}"></script>
+    <script src="{% static "assets/js/codebase.min.js" %}"></script>
+    <script src="{% static "assets/js/plugins/jquery.validate.min.js" %}"></script>
+    <script src="{% static "assets/js/signin.js" %}"></script>
+</body>
+</html>

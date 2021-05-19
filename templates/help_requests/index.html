@@ -1,0 +1,58 @@
+{% extends 'layouts/admin.html' %}
+
+{% block title %}
+Нужна помощь
+{% endblock title %}
+
+{% block breadcrumbs %}
+<li class="breadcrumb-item active">Нужна помощь</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+    <h2 class="content-heading">Нужна помощь</h2>
+    <div class="block">
+        <div class="block-header block-header-default">
+            <h3 class="block-title">Список просьб</h3>
+        </div>
+        <div class="block-content">
+            {% if help_requests %}
+                <table class="table table-stripped table-vcenter">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Имя</th>
+                            <th class="text-center">Что нужно</th>
+                            <th class="text-center">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for help_request in help_requests %}
+                            <tr>
+                                <td class="text-center">
+                                    {{ help_request.user.name }}
+                                    {% if help_request.has_conflict %}
+                                        <span class="badge badge-pill badge-warning">Конфликт</span>
+                                    {% endif %}
+                                    {% if help_request.complains.count > 0 %}
+                                        <span class="badge badge-pill badge-danger">{{ help_request.complains.count }} жалоб</span>
+                                    {% endif %}
+                                    {% if help_request.is_completted %}
+                                        <i data-toggle="tooltip" title='Выполнена' class="text-success si si-check"></i>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">{{ help_request.help_type }}</td>
+                                <td class="d-flex justify-content-center align-items-center">
+                                    <a href="{% url 'admin-help-detail' help_request.id %}" data-toggle="tooltip" title="Просмотреть" class="btn btn-sm btn-alt-info mr-5"><i class="fa fa-eye"></i></a>
+                                    <form action="{% url 'admin-help-delete' help_request.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" data-toggle="tooltip" title="Удалить" onclick="return confirm('Вы уверены?')" class="btn btn-sm btn-alt-danger"><i class="fa fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

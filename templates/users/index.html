@@ -1,0 +1,66 @@
+{% extends 'layouts/admin.html' %}
+
+{% block title %}
+Пользователи Telegram
+{% endblock title %}
+
+{% block breadcrumbs %}
+<li class="breadcrumb-item active">Пользователи Telegram</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+<h2 class="content-heading">Пользователи Telegram</h2>
+<div class="block">
+    <div class="block-header block-header-default">
+        <h3 class="block-title">Список пользователей Telegram ({{ telegram_users|length }})</h3>
+    </div>
+    <div class="block-content block-content-full">
+        {% if telegram_users %}
+            <div class="table-responsive">
+                <table class="table table-stripped table-vcenter">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Имя</th>
+                            <th class="text-center">Юзернейм</th>
+                            <th class="text-center">Номер телефона</th>
+                            <th class="text-center">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for telegram_user in telegram_users %}
+                            <tr>
+                                <td class="text-center">
+                                    {{ telegram_user.name }} 
+                                    {% if telegram_user.presented_complains.count > 0 %}
+                                        <span class="text-danger">({{ telegram_user.presented_complains.count }} жалоб)</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    {% if telegram_user.username %}
+                                    <a href="{{ 'https://telegram.org/'|add:telegram_user.username }}" target="_blank" class="link-effect">{{ telegram_user.username }}</a>
+                                    {% else %}
+                                        <span class="badge badge-pill badge-danger">Отсутствует</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">{{ telegram_user.phone_number }}</td>
+                                <td class="d-flex justify-content-center align-items-center">
+                                    <a href="{% url 'admin-users-detail' telegram_user.id %}" data-toggle="tooltip" title="Просмотреть" class="btn btn-sm btn-alt-info mr-5"><i class="fa fa-eye"></i></a>
+                                    <form action="{% url 'admin-users-delete' telegram_user.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" data-toggle="tooltip" title="Удалить" onclick="return confirm('Вы уверены?')" class="btn btn-sm btn-alt-danger"><i class="fa fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="py-30 text-center">
+                <i class="si si-ghost text-primary display-3"></i>
+                <p class="mt-20 font-size-h5">Ни один пользователь ещё не зарегистрирован</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
